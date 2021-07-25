@@ -15,16 +15,12 @@ var circles = function(circles) {
   }
 
   circles.drawCircles = function () { 
-
     rand1 = circles.random(0,255);
     rand2 = circles.random(0,255);
     rand3 = circles.random(0,255);
-    
     circles.color1 = circles.color(circles.random(0, 255), circles.random(0, 255), circles.random(0, 255));
     circles.color2 = circles.color(rand1, rand2, rand3);
-
     circles.background(circles.color1);
-      
     for (i=0; i<segments; i++) {
       let xpos = circles.width/segments * (i+0.5);
       for (j=0; j<segments; j++) {
@@ -43,19 +39,19 @@ var circles = function(circles) {
       circles.saveCanvas('name','png');
     }
   }
-
 };
 
 var circleInstance = new p5(circles, 'circles');
 
-// random walk 
+
+// Random walk  
 var path = function(path) {
 
   path.setup = function() {
     var canvas = path.createCanvas(800, 800);
     xpos = path.width/2;
     ypos = path.height/2;
-    interval = 100;
+    interval = 150;
     colorSteps = 20;
     counter = 0;
     circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
@@ -68,12 +64,10 @@ var path = function(path) {
       circles.color1=circles.color2;
       circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
     }
-
     currentColor = path.lerpColor(circles.color1, circles.color2, (counter % colorSteps) / colorSteps);
     path.stroke(currentColor);
     path.strokeWeight(10);
     counter++;
-
     path.nextSegment(xpos,ypos,interval);
   }
 
@@ -87,28 +81,25 @@ var path = function(path) {
       path.nextSegment(newxpos,newypos,interval);
     }
   }
-
 }
 
 var pathInstance = new p5(path, 'path');
 
+
+// Squares in a grid with a dope gradient 
 var squares = function(squares) {
   squares.setup = function () {
     var canvas = squares.createCanvas(800, 800);
     canvas.mousePressed(squares.drawSquares);
-    segments = 6;
     spacing = 1;
     squares.drawSquares();
   }
 
   squares.drawSquares = function() { 
-    segments = squares.int(squares.random(6,15));
-    
+    segments = squares.int(squares.random(5,15));
     color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
     color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
-
     squares.background(color2);
-
     for (i=0; i<segments; i++) {
       let xpos = squares.width/segments * i + spacing;
       for (j=0; j<segments; j++) {
@@ -122,14 +113,3 @@ var squares = function(squares) {
 }
 
 var squaresInstance = new p5(squares, 'squares');
-
-
-
-
-
-
-
-
-
-
-
