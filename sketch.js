@@ -33,12 +33,6 @@ var circles = function(circles) {
       }
     }
   }
-
-  circles.keyPressed = function() {
-    if (circles.keyCode === 83) {            // 83 is "S" or "s" 
-      circles.saveCanvas('name','png');
-    }
-  }
 };
 
 var circleInstance = new p5(circles, 'circles');
