@@ -4,7 +4,7 @@
 var circles = function(circles) {
 
   circles.setup = function() {
-    var canvas = circles.createCanvas(500, 500);
+    var canvas = circles.createCanvas(800, 800);
     canvas.mousePressed(circles.randomize);
     circles.randomize();
   };
@@ -48,6 +48,8 @@ var circles = function(circles) {
 };
 
 var myp5 = new p5(circles, 'circles');
+var myp5 = new p5(circles, 'circles2');
+var myp5 = new p5(circles, 'circles3');
 
 
 
