@@ -48,7 +48,6 @@ var circles = function(circles) {
 
 var circleInstance = new p5(circles, 'circles');
 
-
 // random walk 
 var path = function(path) {
 
@@ -81,7 +80,37 @@ var path = function(path) {
 }
 
 var pathInstance = new p5(path, 'path');
-var myp5 = new p5(circles, 'circles3');
+
+var squares = function(squares) {
+  squares.setup = function () {
+    var canvas = squares.createCanvas(800, 800);
+    canvas.mousePressed(squares.drawSquares);
+    segments = 6;
+    spacing = 1;
+    squares.drawSquares();
+  }
+
+  squares.drawSquares = function() { 
+    segments = squares.int(squares.random(6,15));
+    
+    color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+    color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+
+    squares.background(color2);
+
+    for (i=0; i<segments; i++) {
+      let xpos = squares.width/segments * i + spacing;
+      for (j=0; j<segments; j++) {
+        let ypos = squares.height/segments * j + spacing;    
+        squares.noStroke();
+        squares.fill(squares.lerpColor(color1, color2,(i+j+2)/(2*segments)));
+        squares.rect(xpos, ypos, squares.width/segments - 2*spacing, squares.height/segments - 2*spacing);
+      }
+    }
+  }
+}
+
+var squaresInstance = new p5(squares, 'squares');
 
 
 
