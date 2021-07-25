@@ -56,13 +56,24 @@ var path = function(path) {
     xpos = path.width/2;
     ypos = path.height/2;
     interval = 100;
+    colorSteps = 20;
+    counter = 0;
+    circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
     canvas.mousePressed(path.walkit);
     path.walkit();
   }
 
   path.walkit = function() {  
-    path.stroke(path.random(255), path.random(255), path.random(255), path.random(100,255));
-    path.strokeWeight(path.random(10,20));
+    if (counter % colorSteps == 0) {
+      circles.color1=circles.color2;
+      circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
+    }
+
+    currentColor = path.lerpColor(circles.color1, circles.color2, (counter % colorSteps) / colorSteps);
+    path.stroke(currentColor);
+    path.strokeWeight(10);
+    counter++;
+
     path.nextSegment(xpos,ypos,interval);
   }
 
