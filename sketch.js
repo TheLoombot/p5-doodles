@@ -1,9 +1,11 @@
 
+var canvasSize = 800;
+
 // Circle town
 var circles = function(circles) {
 
   circles.setup = function() {
-    var canvas = circles.createCanvas(800, 800);
+    var canvas = circles.createCanvas(canvasSize, canvasSize);
     canvas.mousePressed(circles.randomize);
     circles.randomize();
   };
@@ -42,23 +44,23 @@ var circleInstance = new p5(circles, 'circles');
 var path = function(path) {
 
   path.setup = function() {
-    var canvas = path.createCanvas(800, 800);
+    var canvas = path.createCanvas(canvasSize, canvasSize);
     xpos = path.width/2;
     ypos = path.height/2;
     interval = 150;
-    colorSteps = 20;
+    path.colorSteps = 10;
     counter = 0;
-    circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
+    path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     canvas.mousePressed(path.walkit);
     path.walkit();
   }
 
   path.walkit = function() {  
-    if (counter % colorSteps == 0) {
-      circles.color1=circles.color2;
-      circles.color2 = path.color(path.random(255), path.random(255), path.random(255));
+    if (counter % path.colorSteps == 0) {
+      path.color1=path.color2;
+      path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     }
-    currentColor = path.lerpColor(circles.color1, circles.color2, (counter % colorSteps) / colorSteps);
+    currentColor = path.lerpColor(path.color1, path.color2, (counter % path.colorSteps) / path.colorSteps);
     path.stroke(currentColor);
     path.strokeWeight(10);
     counter++;
@@ -83,7 +85,7 @@ var pathInstance = new p5(path, 'path');
 // Squares in a grid with a dope gradient 
 var squares = function(squares) {
   squares.setup = function () {
-    var canvas = squares.createCanvas(800, 800);
+    var canvas = squares.createCanvas(canvasSize, canvasSize);
     canvas.mousePressed(squares.drawSquares);
     spacing = 1;
     squares.drawSquares();
@@ -91,15 +93,15 @@ var squares = function(squares) {
 
   squares.drawSquares = function() { 
     segments = squares.int(squares.random(5,15));
-    color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
-    color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
-    squares.background(color2);
+    squares.color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+    squares.color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+    squares.background(squares.color2);
     for (i=0; i<segments; i++) {
       let xpos = squares.width/segments * i + spacing;
       for (j=0; j<segments; j++) {
         let ypos = squares.height/segments * j + spacing;    
         squares.noStroke();
-        squares.fill(squares.lerpColor(color1, color2,(i+j+2)/(2*segments)));
+        squares.fill(squares.lerpColor(squares.color1, squares.color2,(i+j+2)/(2*segments)));
         squares.rect(xpos, ypos, squares.width/segments - 2*spacing, squares.height/segments - 2*spacing);
       }
     }
@@ -107,3 +109,34 @@ var squares = function(squares) {
 }
 
 var squaresInstance = new p5(squares, 'squares');
+
+// sine waves
+var sines = function(sines) {
+  sines.setup = function() {
+    var canvas = sines.createCanvas(canvasSize,canvasSize);
+    canvas.mousePressed(sines.drawSines);
+    sines.noStroke();
+    sines.color2 = sines.color(sines.random(0, 255), sines.random(0, 255), sines.random(0, 255));
+    sines.drawSines();
+  }
+
+  sines.drawSines = function () {
+    sines.colorSteps = sines.int(sines.random(20,1000));
+    numFrames = sines.random(400,1000);
+    diameter = sines.random(50,300);
+    sines.background(sines.color2);
+    for (i=0; i<=numFrames; i++) {
+      if (i % sines.colorSteps == 0) {
+        sines.color1 = sines.color2;
+        sines.color2 = sines.color(sines.random(0, 255), sines.random(0, 255), sines.random(0, 255));
+      }
+      sines.fill(sines.lerpColor(sines.color1, sines.color2, (i % sines.colorSteps) / sines.colorSteps));
+      let ypos = (diameter/2) + i*((sines.height-diameter)/(numFrames));
+      let xpos = (sines.width/4)*sines.sin(ypos/(sines.height/20)) + sines.width/2;
+      sines.ellipse(xpos,ypos,diameter, diameter);
+    }
+  }
+}
+
+var sineInstance = new p5(sines,'sines');
+
