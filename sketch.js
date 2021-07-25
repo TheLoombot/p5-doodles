@@ -1,6 +1,5 @@
 
 // Circle town
-
 var circles = function(circles) {
 
   circles.setup = function() {
@@ -47,8 +46,41 @@ var circles = function(circles) {
 
 };
 
-var myp5 = new p5(circles, 'circles');
-var myp5 = new p5(circles, 'circles2');
+var circleInstance = new p5(circles, 'circles');
+
+
+// random walk 
+var path = function(path) {
+
+  path.setup = function() {
+    var canvas = path.createCanvas(800, 800);
+    xpos = path.width/2;
+    ypos = path.height/2;
+    interval = 100;
+    canvas.mousePressed(path.walkit);
+    path.walkit();
+  }
+
+  path.walkit = function() {  
+    path.stroke(path.random(255), path.random(255), path.random(255), path.random(100,255));
+    path.strokeWeight(path.random(10,20));
+    path.nextSegment(xpos,ypos,interval);
+  }
+
+  path.nextSegment = function(xpos, ypos, interval) {
+    if (xpos > path.width || xpos < 0 || ypos > path.height || ypos < 0) {
+      // game over 
+    } else {
+      newxpos = xpos+path.random(-interval,interval);
+      newypos = ypos+path.random(-interval,interval);
+      path.line(xpos, ypos, newxpos, newypos);
+      path.nextSegment(newxpos,newypos,interval);
+    }
+  }
+
+}
+
+var pathInstance = new p5(path, 'path');
 var myp5 = new p5(circles, 'circles3');
 
 
