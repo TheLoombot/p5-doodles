@@ -45,8 +45,7 @@ var path = function(path) {
 
   path.setup = function() {
     var canvas = path.createCanvas(canvasSize, canvasSize);
-    xpos = path.width/2;
-    ypos = path.height/2;
+    xpos = 0;
     interval = 150;
     path.colorSteps = 10;
     counter = 0;
@@ -62,8 +61,9 @@ var path = function(path) {
     }
     currentColor = path.lerpColor(path.color1, path.color2, (counter % path.colorSteps) / path.colorSteps);
     path.stroke(currentColor);
-    path.strokeWeight(10);
+    path.strokeWeight(50);
     counter++;
+    ypos = path.random(0,path.height);
     path.nextSegment(xpos,ypos,interval);
   }
 
@@ -71,8 +71,8 @@ var path = function(path) {
     if (xpos > path.width || xpos < 0 || ypos > path.height || ypos < 0) {
       // game over 
     } else {
-      newxpos = xpos+path.random(-interval,interval);
-      newypos = ypos+path.random(-interval,interval);
+      newxpos = xpos+path.random(0,interval);
+      newypos = ypos+path.random(-interval/2,interval/2);
       path.line(xpos, ypos, newxpos, newypos);
       path.nextSegment(newxpos,newypos,interval);
     }
