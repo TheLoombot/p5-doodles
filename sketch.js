@@ -45,15 +45,14 @@ var path = function(path) {
 
   path.setup = function() {
     var canvas = path.createCanvas(canvasSize, canvasSize);
-    xpos = 0;
-    interval = 200;
-    path.colorSteps = 10;
+    xpos = 0;              // path starting x position
+    interval = 200;        // max distance travelled in each path step 
+    path.colorSteps = 100;  // number of paths to draw between two colors
     counter = 0;
+    resetSteps = 500;     // number of ticks after which to reset the canvas
     path.color2 = path.color(path.random(255), path.random(255), path.random(255));
-    canvas.mousePressed(path.walkit);
-    for (i=0; i<10; i++) {
-      path.walkit();
-    }
+    path.background(path.color2);
+    path.frameRate(20);
   }
 
   path.walkit = function() {  
@@ -62,10 +61,13 @@ var path = function(path) {
       path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     }
     currentColor = path.lerpColor(path.color1, path.color2, (counter % path.colorSteps) / path.colorSteps);
+    if (counter % resetSteps == 0) {
+      path.background(currentColor);
+    }
     path.stroke(currentColor);
     path.strokeWeight(50);
     counter++;
-    ypos = path.random(0,path.height);
+    ypos = path.randomGaussian(path.height/2,300);
     path.nextSegment(xpos,ypos,interval);
   }
 
@@ -78,6 +80,10 @@ var path = function(path) {
       path.line(xpos, ypos, newxpos, newypos);
       path.nextSegment(newxpos,newypos,interval);
     }
+  }
+
+  path.draw = function() {
+    path.walkit();
   }
 }
 
