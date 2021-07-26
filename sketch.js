@@ -51,7 +51,9 @@ var path = function(path) {
     counter = 0;
     path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     canvas.mousePressed(path.walkit);
-    path.walkit();
+    for (i=0; i<10; i++) {
+      path.walkit();
+    }
   }
 
   path.walkit = function() {  
