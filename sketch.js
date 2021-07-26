@@ -123,7 +123,7 @@ var sines = function(sines) {
   sines.drawSines = function () {
     sines.colorSteps = sines.int(sines.random(20,1000));
     numFrames = sines.random(400,1000);
-    diameter = sines.random(50,300);
+    diameter = sines.random(100,300);
     sines.background(sines.color2);
     for (i=0; i<=numFrames; i++) {
       if (i % sines.colorSteps == 0) {
