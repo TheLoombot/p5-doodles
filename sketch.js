@@ -65,9 +65,9 @@ var path = function(path) {
       path.background(currentColor);
     }
     path.stroke(currentColor);
-    path.strokeWeight(50);
+    path.strokeWeight(30);
     counter++;
-    ypos = path.randomGaussian(path.height/2,300);
+    ypos = path.randomGaussian(path.height/2,150);
     path.nextSegment(xpos,ypos,interval);
   }
 
@@ -75,7 +75,7 @@ var path = function(path) {
     if (xpos > path.width || xpos < 0 || ypos > path.height || ypos < 0) {
       // game over 
     } else {
-      newxpos = xpos+path.random(0,interval);
+      newxpos = xpos+path.random(0,interval/4);
       newypos = ypos+path.random(-interval/2,interval/2);
       path.line(xpos, ypos, newxpos, newypos);
       path.nextSegment(newxpos,newypos,interval);
