@@ -148,3 +148,32 @@ var sines = function(sines) {
 
 var sineInstance = new p5(sines,'sines');
 
+//trees and shit
+var tree = function(tree) {
+  tree.setup = function () {
+    var canvas = tree.createCanvas(canvasSize, canvasSize);
+    canvas.mousePressed(tree.drawTree);
+    tree.drawTree();
+  }
+
+  tree.drawTree = function() {
+    tree.stroke(tree.color(tree.random(255), tree.random(255), tree.random(255)));
+    tree.background(tree.color(tree.random(255), tree.random(255), tree.random(255)));
+    tree.tree(tree.width / 2, tree.height, 175, - tree.PI / 2, 3, tree.PI / 3, 0.8, m=20);
+  }
+
+  // SYNTAX: 
+  // tree(positionX, positionY, baseLength, angle, branches (default = 3),
+  //   angleVariation (default = PI / 2), childLengthRatio (default = 0.8), 
+  //   minimumLength (default = 15))
+  // From: https://redd.it/oqtmne
+
+  tree.tree = function(x, y, l, a, b = 3, v = tree.PI / 2, r = 0.8, m = 15) {
+      if (l < m) return;
+      tree.strokeWeight(l / m);
+      tree.line(x, y, x + l * tree.cos(a), y + l * tree.sin(a));
+      for (let i = 0; i < b; i++) tree.tree(x + l * tree.cos(a), y + l * tree.sin(a), l * r, a + v * (tree.random() - 0.5), b, v, r, m);
+  }
+}
+
+var treeInstance = new p5(tree, 'tree');
