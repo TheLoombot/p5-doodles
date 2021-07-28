@@ -157,8 +157,13 @@ var tree = function(tree) {
   }
 
   tree.drawTree = function() {
-    tree.stroke(tree.color(tree.random(255), tree.random(255), tree.random(255)));
-    tree.background(tree.color(tree.random(255), tree.random(255), tree.random(255)));
+
+    tree.color1 = tree.color(tree.random(255), tree.random(255), tree.random(255));
+    tree.color2 = tree.color(tree.random(255), tree.random(255), tree.random(255));
+    tree.background(tree.color1);
+
+    flip = tree.random(100);
+    console.log(flip);
     tree.tree(tree.width / 2, tree.height, 175, - tree.PI / 2, 3, tree.PI / 3, 0.8, m=20);
   }
 
@@ -171,6 +176,11 @@ var tree = function(tree) {
   tree.tree = function(x, y, l, a, b = 3, v = tree.PI / 2, r = 0.8, m = 15) {
       if (l < m) return;
       tree.strokeWeight(l / m);
+      if (flip > 50) {
+        tree.stroke(tree.lerpColor(tree.color1, tree.color2, 1.5*m/l));
+      } else {
+        tree.stroke(tree.color(tree.random(255), tree.random(255), tree.random(255)));
+      }
       tree.line(x, y, x + l * tree.cos(a), y + l * tree.sin(a));
       for (let i = 0; i < b; i++) tree.tree(x + l * tree.cos(a), y + l * tree.sin(a), l * r, a + v * (tree.random() - 0.5), b, v, r, m);
   }
