@@ -48,7 +48,7 @@ var path = function(path) {
     xpos = 0;              // path starting x position
     interval = 200;        // max distance travelled in each path step 
     path.colorSteps = 100;  // number of paths to draw between two colors
-    counter = 0;
+    path.counter = 0;
     resetSteps = 500;     // number of ticks after which to reset the canvas
     path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     path.background(path.color2);
@@ -56,17 +56,17 @@ var path = function(path) {
   }
 
   path.walkit = function() {  
-    if (counter % path.colorSteps == 0) {
+    if (path.counter % path.colorSteps == 0) {
       path.color1=path.color2;
       path.color2 = path.color(path.random(255), path.random(255), path.random(255));
     }
-    currentColor = path.lerpColor(path.color1, path.color2, (counter % path.colorSteps) / path.colorSteps);
-    if (counter % resetSteps == 0) {
+    currentColor = path.lerpColor(path.color1, path.color2, (path.counter % path.colorSteps) / path.colorSteps);
+    if (path.counter % resetSteps == 0) {
       path.background(currentColor);
     }
     path.stroke(currentColor);
     path.strokeWeight(30);
-    counter++;
+    path.counter++;
     ypos = path.randomGaussian(path.height/2,150);
     path.nextSegment(xpos,ypos,interval);
   }
@@ -163,7 +163,6 @@ var tree = function(tree) {
     tree.background(tree.color1);
 
     flip = tree.random(100);
-    console.log(flip);
     tree.tree(tree.width / 2, tree.height, 175, - tree.PI / 2, 3, tree.PI / 3, 0.8, m=20);
   }
 
@@ -187,3 +186,53 @@ var tree = function(tree) {
 }
 
 var treeInstance = new p5(tree, 'tree');
+
+
+
+// donuts
+
+var donut = function(donut) {
+  donut.setup = function() {
+    var canvas = donut.createCanvas(canvasSize, canvasSize);
+    margin=20;
+    outerRadius = 256; 
+    donut.numCircles = 150;
+    donut.numColors = 2;
+    donut.circlesPerColor = donut.int(donut.numCircles / donut.numColors);
+    xcenter = donut.width / 2;
+    ycenter = donut.height/ 2;
+    innerRadius = (ycenter - outerRadius/2) - margin;   // aka the hypoteneuse! 
+    donut.counter = 0;
+    donut.frameRate(60);
+    donut.angleMode(donut.DEGREES);
+    donut.noStroke();
+    donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
+  }
+
+  donut.drawDonut = function () {
+
+  }
+
+  donut.draw = function () {
+    if (donut.counter % donut.circlesPerColor == 0) {
+      donut.color1 = donut.color2;
+      donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
+    }
+    if (donut.counter % (4*donut.numCircles) == 0 ) {
+      donut.background(donut.color1);
+    }
+    // donut.fill(donut.color1);
+    donut.fill(donut.lerpColor(donut.color1, donut.color2, (donut.counter % donut.circlesPerColor) / donut.circlesPerColor));
+    donut.angle = 360 * donut.counter / donut.numCircles;
+    donut.xpos = donut.cos(donut.angle)*innerRadius + xcenter;
+    donut.ypos = (donut.sin(donut.angle))*innerRadius + ycenter;
+    donut.ellipse(donut.xpos, donut.ypos, outerRadius);
+    // donut.rectMode(donut.RADIUS);
+    // donut.rect(donut.xpos, donut.ypos, 256, 256);
+    donut.counter++;
+  }
+
+}
+
+var donutInstance = new p5(donut, 'donut');
+
