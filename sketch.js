@@ -195,15 +195,14 @@ var donut = function(donut) {
   donut.setup = function() {
     var canvas = donut.createCanvas(canvasSize, canvasSize);
     margin=20;
-    outerRadius = 256; 
+    outerRadius = 250; 
     donut.numCircles = 150;
-    donut.numColors = 2;
+    donut.numColors = 1;
     donut.circlesPerColor = donut.int(donut.numCircles / donut.numColors);
     xcenter = donut.width / 2;
     ycenter = donut.height/ 2;
     innerRadius = (ycenter - outerRadius/2) - margin;   // aka the hypoteneuse! 
     donut.counter = 0;
-    donut.frameRate(60);
     donut.angleMode(donut.DEGREES);
     donut.noStroke();
     donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
@@ -218,7 +217,7 @@ var donut = function(donut) {
       donut.color1 = donut.color2;
       donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
     }
-    if (donut.counter % (4*donut.numCircles) == 0 ) {
+    if (donut.counter % (6*donut.numCircles) == 0 ) {
       donut.background(donut.color1);
     }
     // donut.fill(donut.color1);
