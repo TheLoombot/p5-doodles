@@ -217,7 +217,7 @@ var donut = function(donut) {
       donut.color1 = donut.color2;
       donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
     }
-    if (donut.counter % (6*donut.numCircles) == 0 ) {
+    if (donut.counter % (10*donut.numCircles) == 0 ) {
       donut.background(donut.color1);
     }
     // donut.fill(donut.color1);
@@ -226,8 +226,6 @@ var donut = function(donut) {
     donut.xpos = donut.cos(donut.angle)*innerRadius + xcenter;
     donut.ypos = (donut.sin(donut.angle))*innerRadius + ycenter;
     donut.ellipse(donut.xpos, donut.ypos, outerRadius);
-    // donut.rectMode(donut.RADIUS);
-    // donut.rect(donut.xpos, donut.ypos, 256, 256);
     donut.counter++;
   }
 
