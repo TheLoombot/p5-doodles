@@ -1,14 +1,35 @@
 
 var canvasSize = 800;
 
+// rgb
+// facebook 
+// color1 = color(1, 124, 12);
+
+// facebook 
+// let colorArray = [[59,89,152], [139,157,195], [223,227,238], [247,247,247]];
+
+
+// RGB 
+let colorArray = [[255,0,0], [0,255,0], [0,0,255]];
+
+
 // Circle town
 var circles = function(circles) {
 
   circles.setup = function() {
     var canvas = circles.createCanvas(canvasSize, canvasSize);
+
+    circles.colors = [];
+
+    for (let i = 0; i < colorArray.length; i++) {
+      circles.colors.push(circles.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+
+    circles.shuffledColors = circles.shuffle(circles.colors);
+
     canvas.mousePressed(circles.randomize);
     circles.randomize();
-  };
+  }
 
   circles.randomize = function() {  
     segments = circles.int(circles.random(2,11));
@@ -17,11 +38,10 @@ var circles = function(circles) {
   }
 
   circles.drawCircles = function () { 
-    rand1 = circles.random(0,255);
-    rand2 = circles.random(0,255);
-    rand3 = circles.random(0,255);
-    circles.color1 = circles.color(circles.random(0, 255), circles.random(0, 255), circles.random(0, 255));
-    circles.color2 = circles.color(rand1, rand2, rand3);
+    circles.shuffledColors = circles.shuffle(circles.colors);
+    circles.color1 = circles.shuffledColors.pop();
+    circles.color2 = circles.shuffledColors.pop();
+
     circles.background(circles.color1);
     for (i=0; i<segments; i++) {
       let xpos = circles.width/segments * (i+0.5);
@@ -50,7 +70,16 @@ var path = function(path) {
     path.colorSteps = 100;  // number of paths to draw between two colors
     path.counter = 0;
     resetSteps = 500;     // number of ticks after which to reset the canvas
-    path.color2 = path.color(path.random(255), path.random(255), path.random(255));
+
+    path.colors = [];
+
+    for (let i = 0; i < colorArray.length; i++) {
+      path.colors.push(path.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+
+    path.shuffledColors = path.shuffle(path.colors);
+    // path.color2 = path.color(path.random(255), path.random(255), path.random(255));
+    path.color2 = path.shuffledColors.pop();
     path.background(path.color2);
     path.frameRate(20);
   }
@@ -58,7 +87,8 @@ var path = function(path) {
   path.walkit = function() {  
     if (path.counter % path.colorSteps == 0) {
       path.color1=path.color2;
-      path.color2 = path.color(path.random(255), path.random(255), path.random(255));
+      path.color2 = path.shuffledColors.pop();
+      path.shuffledColors = path.shuffle(path.colors);
     }
     currentColor = path.lerpColor(path.color1, path.color2, (path.counter % path.colorSteps) / path.colorSteps);
     if (path.counter % resetSteps == 0) {
