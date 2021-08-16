@@ -6,12 +6,13 @@ var canvasSize = 800;
 // color1 = color(1, 124, 12);
 
 // facebook 
-// let colorArray = [[59,89,152], [139,157,195], [223,227,238], [247,247,247]];
-
+let colorArray = [[59,89,152], [139,157,195], [223,227,238], [247,247,247]];
 
 // RGB 
-let colorArray = [[255,0,0], [0,255,0], [0,0,255]];
+// let colorArray = [[255,0,0], [0,255,0], [0,0,255]];
 
+// hot dog stand https://blog.codinghorror.com/a-tribute-to-the-windows-31-hot-dog-stand-color-scheme/ 
+// let colorArray = [[252, 13, 27], [255, 253, 56], [0,0,0]];
 
 // Circle town
 var circles = function(circles) {
@@ -123,6 +124,12 @@ var pathInstance = new p5(path, 'path');
 // Squares in a grid with a dope gradient 
 var squares = function(squares) {
   squares.setup = function () {
+
+    squares.colors = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      squares.colors.push(squares.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+
     var canvas = squares.createCanvas(canvasSize, canvasSize);
     canvas.mousePressed(squares.drawSquares);
     spacing = 1;
@@ -131,8 +138,13 @@ var squares = function(squares) {
 
   squares.drawSquares = function() { 
     segments = squares.int(squares.random(5,15));
-    squares.color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
-    squares.color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+
+    squares.shuffledColors = squares.shuffle(squares.colors);
+    squares.color1 = squares.shuffledColors.pop();
+    squares.color2 = squares.shuffledColors.pop();
+
+    // squares.color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
+    // squares.color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
     squares.background(squares.color2);
     for (i=0; i<segments; i++) {
       let xpos = squares.width/segments * i + spacing;
