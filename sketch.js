@@ -163,14 +163,22 @@ var squaresInstance = new p5(squares, 'squares');
 // sine waves
 var sines = function(sines) {
   sines.setup = function() {
+    
+    sines.colors = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      sines.colors.push(sines.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+
     var canvas = sines.createCanvas(canvasSize,canvasSize);
     canvas.mousePressed(sines.drawSines);
     sines.noStroke();
-    sines.color2 = sines.color(sines.random(0, 255), sines.random(0, 255), sines.random(0, 255));
     sines.drawSines();
   }
 
   sines.drawSines = function () {
+    sines.shuffledColors = sines.shuffle(sines.colors);
+    sines.color2 = sines.shuffledColors.pop();
+
     sines.colorSteps = sines.int(sines.random(20,1000));
     numFrames = sines.random(400,1000);
     diameter = sines.random(100,300);
@@ -178,7 +186,12 @@ var sines = function(sines) {
     for (i=0; i<=numFrames; i++) {
       if (i % sines.colorSteps == 0) {
         sines.color1 = sines.color2;
-        sines.color2 = sines.color(sines.random(0, 255), sines.random(0, 255), sines.random(0, 255));
+
+        if (sines.shuffledColors < 1) {
+          sines.shuffledColors = sines.shuffle(sines.colors);
+        }
+
+        sines.color2 = sines.shuffledColors.pop();
       }
       sines.fill(sines.lerpColor(sines.color1, sines.color2, (i % sines.colorSteps) / sines.colorSteps));
       let ypos = (diameter/2) + i*((sines.height-diameter)/(numFrames));
@@ -205,7 +218,7 @@ var tree = function(tree) {
     tree.background(tree.color1);
 
     flip = tree.random(100);
-    tree.tree(tree.width / 2, tree.height, 175, - tree.PI / 2, 3, tree.PI / 3, 0.8, m=20);
+    tree.tree(tree.width / 2, tree.height, 175, - tree.PI / 2, 3, tree.PI / 3, 0.8, m=23);
   }
 
   // SYNTAX: 
