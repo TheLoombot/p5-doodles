@@ -187,7 +187,7 @@ var sines = function(sines) {
       if (i % sines.colorSteps == 0) {
         sines.color1 = sines.color2;
 
-        if (sines.shuffledColors < 1) {
+        if (sines.shuffledColors.length < 1) {
           sines.shuffledColors = sines.shuffle(sines.colors);
         }
 
@@ -208,13 +208,21 @@ var tree = function(tree) {
   tree.setup = function () {
     var canvas = tree.createCanvas(canvasSize, canvasSize);
     canvas.mousePressed(tree.drawTree);
+
+    tree.colors = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      tree.colors.push(tree.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+
     tree.drawTree();
   }
 
   tree.drawTree = function() {
 
-    tree.color1 = tree.color(tree.random(255), tree.random(255), tree.random(255));
-    tree.color2 = tree.color(tree.random(255), tree.random(255), tree.random(255));
+    tree.shuffledColors = tree.shuffle(tree.colors);
+
+    tree.color1 = tree.shuffledColors.pop();
+    tree.color2 = tree.shuffledColors.pop();
     tree.background(tree.color1);
 
     flip = tree.random(100);
@@ -233,7 +241,10 @@ var tree = function(tree) {
       if (flip > 50) {
         tree.stroke(tree.lerpColor(tree.color1, tree.color2, 1.5*m/l));
       } else {
-        tree.stroke(tree.color(tree.random(255), tree.random(255), tree.random(255)));
+        if (tree.shuffledColors.length < 1) {
+          tree.shuffledColors = tree.shuffle(tree.colors);
+        }
+        tree.stroke(tree.shuffledColors.pop());
       }
       tree.line(x, y, x + l * tree.cos(a), y + l * tree.sin(a));
       for (let i = 0; i < b; i++) tree.tree(x + l * tree.cos(a), y + l * tree.sin(a), l * r, a + v * (tree.random() - 0.5), b, v, r, m);
@@ -260,7 +271,14 @@ var donut = function(donut) {
     donut.counter = 0;
     donut.angleMode(donut.DEGREES);
     donut.noStroke();
-    donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
+
+    donut.colors = [];
+    for (let i = 0; i < colorArray.length; i++) {
+      donut.colors.push(donut.color(colorArray[i][0], colorArray[i][1], colorArray[i][2]));
+    }
+    donut.shuffledColors = donut.shuffle(donut.colors);
+
+    donut.color2=donut.shuffledColors.pop();
   }
 
   donut.drawDonut = function () {
@@ -270,7 +288,12 @@ var donut = function(donut) {
   donut.draw = function () {
     if (donut.counter % donut.circlesPerColor == 0) {
       donut.color1 = donut.color2;
-      donut.color2=donut.color(donut.random(255), donut.random(255), donut.random(255));
+
+      if (donut.shuffledColors.length < 1) { 
+        donut.shuffledColors = donut.shuffle(donut.colors);
+      }
+
+      donut.color2=donut.shuffledColors.pop();
     }
     if (donut.counter % (10*donut.numCircles) == 0 ) {
       donut.background(donut.color1);
