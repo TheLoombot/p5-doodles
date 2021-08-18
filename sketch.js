@@ -1,12 +1,14 @@
 
 var canvasSize = 800;
 
-// rgb
-// facebook 
-// color1 = color(1, 124, 12);
+// 24k gold https://www.color-hex.com/color-palette/2799 
+// let colorArray = [[166,124,0], [191,155,48], [255,191,0], [255,207,64], [255,220,115]];
+
+// parrot green https://www.color-hex.com/color-palette/5016 
+let colorArray = [[35,77,32], [54,128,45], [119,171,89], [201,223,138], [240,247,218]];
 
 // facebook 
-let colorArray = [[59,89,152], [139,157,195], [223,227,238], [247,247,247]];
+// let colorArray = [[59,89,152], [139,157,195], [223,227,238], [247,247,247]];
 
 // RGB 
 // let colorArray = [[255,0,0], [0,255,0], [0,0,255]];
@@ -143,8 +145,6 @@ var squares = function(squares) {
     squares.color1 = squares.shuffledColors.pop();
     squares.color2 = squares.shuffledColors.pop();
 
-    // squares.color1 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
-    // squares.color2 = squares.color(squares.random(0, 255), squares.random(0, 255), squares.random(0, 255));
     squares.background(squares.color2);
     for (i=0; i<segments; i++) {
       let xpos = squares.width/segments * i + spacing;
@@ -298,7 +298,6 @@ var donut = function(donut) {
     if (donut.counter % (10*donut.numCircles) == 0 ) {
       donut.background(donut.color1);
     }
-    // donut.fill(donut.color1);
     donut.fill(donut.lerpColor(donut.color1, donut.color2, (donut.counter % donut.circlesPerColor) / donut.circlesPerColor));
     donut.angle = 360 * donut.counter / donut.numCircles;
     donut.xpos = donut.cos(donut.angle)*innerRadius + xcenter;
